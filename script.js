@@ -14,50 +14,80 @@ function getComputerChoice() {
     }
 }
 
-const playerSelection = prompt("choose between Rock, Paper and Scissors: ");
-const computerSelection = getComputerChoice();
-
 // function that compares between player and computer choices and returns the winner
 function playRound(playerSelection, computerSelection) {
-
+    // store the messages that will be displayed after each round
     let winMessage = `You win! ${playerSelection} beats ${computerSelection}`
     let loseMessage = `You lose! ${computerSelection} beats ${playerSelection}`
-
+    // if loop comparing between user and computer choices and returning the winner
     if (playerSelection.toLowerCase() == "rock") {
         switch (true) {
             case (computerSelection == "Scissors"):
-                return winMessage;
+                console.log(winMessage)
+                return 1;
                 break;
             case (computerSelection == "Paper"):
-                return loseMessage;
+                console.log(loseMessage)
+                return -1;
                 break;
             default :
-                return "its a tie"
+            console.log()
+                console.log("its a tie")
+                return 0;
         }
     } else if (playerSelection.toLowerCase() == "paper") {
         switch (true) {
             case (computerSelection == "Rock"):
-                return winMessage;
+                console.log(winMessage)
+                return 1;
                 break;
             case (computerSelection == "Scissors"):
-                return loseMessage;
+                console.log(loseMessage)
+                return -1;
                 break;
             default :
-                return "its a tie"
+            console.log()
+                console.log("its a tie")
+                return 0;
         }
     } else if (playerSelection.toLowerCase() == "scissors"){
         switch (true) {
             case (computerSelection == "Paper"):
-                return winMessage;
+                console.log(winMessage)
+                return 1;
                 break;
             case (computerSelection == "Rock"):
-                return loseMessage;
+                console.log(loseMessage)
+                return -1;
                 break;
             default :
-                return "its a tie"
+            console.log()
+                console.log("its a tie")
+                return 0;
         }
     } else {
-        return "something went wrong"
+        console.log("something went wrong")
     }
 }
-console.log(playRound(playerSelection, computerSelection))
+
+// function controls 5 rounds game 
+function game() {
+    //create loop play rounds 5 times recording each round winner
+    let score = 0;
+    for (let i = 0; i < 5; i++) {
+        let j = 0;
+        while(j == 0) {
+            const playerSelection = prompt("choose between Rock, Paper and Scissors: ");
+            j = playRound(playerSelection, getComputerChoice());
+            score += j;
+        }
+    }
+    // display the winner of the highest score
+    if (score > 0) {
+        console.log("you are the winner!")
+    } else{
+        console.log("you lose")
+    }
+}
+
+game();
