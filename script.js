@@ -1,4 +1,14 @@
 
+const rockBtn = document.querySelector('.rock-btn');
+const paperBtn = document.querySelector('.paper-btn');
+const scissorsBtn = document.querySelector('.scissors-btn');
+const resultDisplay = document.querySelector(".result");
+let playerScore = 0;
+let computerScore = 0;
+const playerResult = document.querySelector(".player-score");
+const computerResult = document.querySelector(".computer-score");
+const winner = document.querySelector(".winner");
+
 //function that generates random choice between "Rock, Paper and Scissors"
 function getComputerChoice() {
     const choice = Math.floor(Math.random() * 3);
@@ -16,78 +26,70 @@ function getComputerChoice() {
 
 // function that compares between player and computer choices and returns the winner
 function playRound(playerSelection, computerSelection) {
-    // store the messages that will be displayed after each round
-    let winMessage = `You win! ${playerSelection} beats ${computerSelection}`
-    let loseMessage = `You lose! ${computerSelection} beats ${playerSelection}`
-    // if loop comparing between user and computer choices and returning the winner
-    if (playerSelection.toLowerCase() == "rock") {
+    const winMessage =  `Round Winner: The Player ${playerSelection} beats ${computerSelection}`;
+    const loseMessage = `Round Winner: The Computer ${computerSelection} beats ${playerSelection}`;
+    const tieMessage = "its a tie";
+
+    if (playerSelection === "Rock") {
         switch (true) {
-            case (computerSelection == "Scissors"):
-                console.log(winMessage)
-                return 1;
-                break;
-            case (computerSelection == "Paper"):
-                console.log(loseMessage)
-                return -1;
-                break;
-            default :
-            console.log()
-                console.log("its a tie")
-                return 0;
+            case (computerSelection === "Paper"):
+                resultDisplay.textContent = loseMessage;
+                return "lose";
+            case (computerSelection === "Scissors"):
+                resultDisplay.textContent = winMessage;
+                return "win";
+            default:
+                resultDisplay.textContent = tieMessage;
         }
-    } else if (playerSelection.toLowerCase() == "paper") {
+    } else if (playerSelection === "Paper") {
         switch (true) {
-            case (computerSelection == "Rock"):
-                console.log(winMessage)
-                return 1;
-                break;
-            case (computerSelection == "Scissors"):
-                console.log(loseMessage)
-                return -1;
-                break;
-            default :
-            console.log()
-                console.log("its a tie")
-                return 0;
-        }
-    } else if (playerSelection.toLowerCase() == "scissors"){
-        switch (true) {
-            case (computerSelection == "Paper"):
-                console.log(winMessage)
-                return 1;
-                break;
-            case (computerSelection == "Rock"):
-                console.log(loseMessage)
-                return -1;
-                break;
-            default :
-            console.log()
-                console.log("its a tie")
-                return 0;
+            case (computerSelection === "Scissors"):
+                resultDisplay.textContent = loseMessage;
+                return "lose";
+            case (computerSelection === "Rock"):
+                resultDisplay.textContent = winMessage;
+                return "win";
+            default:
+                resultDisplay.textContent = tieMessage;
         }
     } else {
-        console.log("something went wrong")
-    }
-}
-
-// function controls 5 rounds game 
-function game() {
-    //create loop play rounds 5 times recording each round winner
-    let score = 0;
-    for (let i = 0; i < 5; i++) {
-        let j = 0;
-        while(j == 0) {
-            const playerSelection = prompt("choose between Rock, Paper and Scissors: ");
-            j = playRound(playerSelection, getComputerChoice());
-            score += j;
+        switch (true) {
+            case (computerSelection === "Rock"):
+                resultDisplay.textContent = loseMessage;
+                return "lose";
+            case (computerSelection === "Paper"):
+                resultDisplay.textContent = winMessage;
+                return "win";
+            default:
+                resultDisplay.textContent = tieMessage;
         }
     }
-    // display the winner of the highest score
-    if (score > 0) {
-        console.log("you are the winner!")
-    } else{
-        console.log("you lose")
-    }
 }
 
-game();
+// Control The Game and Display the Winner
+function game(playerSelection, computerSelection) {
+    // condition to stop the game if either player won
+    if (playerScore === 5 || computerScore === 5) return;
+
+    // running each round and update the players score
+    if (playRound(playerSelection, computerSelection) === "win") {
+        playerScore++;
+        playerResult.textContent = "The Player Score: " + playerScore;
+    } else if (playRound(playerSelection, computerSelection) === "lose") {
+        computerScore++;
+        computerResult.textContent = "The Computer Score: " + computerScore;
+    } else {
+        return;
+    }
+
+    // display the winner of the highest score
+    if (playerScore === 5) winner.textContent = "Match Winner: The Player";
+    else if (computerScore === 5) winner.textContent = "Match Winner: The COMPUTER";
+}
+    
+
+// start the game
+rockBtn.addEventListener("click", () => game('Rock', getComputerChoice()));
+paperBtn.addEventListener("click", () => game('Paper', getComputerChoice()));
+scissorsBtn.addEventListener("click", () => game('Scissors', getComputerChoice()));
+ 
